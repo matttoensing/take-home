@@ -7,4 +7,9 @@ RSpec.describe Subscription, type: :model do
     it { should have_many(:tea_subscriptions) }
     it { should have_many(:teas).through(:tea_subscriptions) }
   end
+
+  describe 'validations' do
+    it { should define_enum_for(:status).with([:subscribed, :cancelled, :paused]) }
+    it { should define_enum_for(:frequency).with([:weekly, :bi_weekly, :monthly]) }
+  end
 end
