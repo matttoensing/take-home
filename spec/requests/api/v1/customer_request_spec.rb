@@ -34,6 +34,7 @@ RSpec.describe 'customers api' do
         address: '1234 Main st'
       }
 
+
       expect(Customer.count).to eq(0)
 
       post '/api/v1/customers', params: { user: customer_params }
