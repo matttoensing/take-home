@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :subscription do
     title { "MyString" }
-    price { 1.5 }
-    status { 1 }
-    frequency { 1 }
+    price { Faker::Number.decimal(l_digits: 2) }
+    status { Faker::Number.between(from: 0, to: 2) }
+    frequency { Faker::Number.between(from: 0, to: 2) }
   end
 end
