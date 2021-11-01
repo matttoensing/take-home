@@ -9,6 +9,7 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'factory_bot_rails'
 gem 'faker'
+gem 'fast_jsonapi'
 
 
 group :development, :test do
