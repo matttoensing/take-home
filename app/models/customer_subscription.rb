@@ -1,4 +1,4 @@
-class CustomerSubscription < ApplicationRecord
-  belongs_to :customer
-  belongs_to :subscription
-end
+# class CustomerSubscription < ApplicationRecord
+#   belongs_to :customer
+#   belongs_to :subscription
+# end

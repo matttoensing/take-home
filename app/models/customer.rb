@@ -1,6 +1,6 @@
 class Customer < ApplicationRecord
-  has_many :customer_subscriptions
-  has_many :subscriptions, through: :customer_subscriptions
+  # has_many :customer_subscriptions
+  has_many :subscriptions
 
   validates :first_name, presence: true
   validates :last_name, presence: true

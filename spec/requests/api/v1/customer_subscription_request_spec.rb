@@ -4,10 +4,8 @@ RSpec.describe 'customer subscription API' do
   describe 'happy path' do
     it 'can send a list of customer subscriptions' do
       customer = create(:customer)
-      subscription1 = create(:subscription)
-      subscription2 = create(:subscription)
-      customer_sub1 = CustomerSubscription.create!(customer: customer, subscription: subscription1)
-      customer_sub2 = CustomerSubscription.create!(customer: customer, subscription: subscription2)
+      subscription1 = create(:subscription, customer: customer)
+      subscription2 = create(:subscription, customer: customer)
 
       get "/api/v1/customer_subscriptions/#{customer.id}"
 
@@ -31,7 +29,7 @@ RSpec.describe 'customer subscription API' do
 
     it 'can create a customer subscription' do
       customer = create(:customer)
-      subscription = create(:subscription)
+      subscription = create(:subscription, customer: customer)
       customer_sub_params = {
         customer_id: customer.id,
         subscription_id: subscription.id
@@ -42,7 +40,7 @@ RSpec.describe 'customer subscription API' do
       expect(response).to be_successful
       expect(response.status).to eq(201)
 
-      new_customer_subscription = CustomerSubscription.last
+      # new_customer_subscription = CustomerSubscription.last
 
       expect(new_customer_subscription.customer_id).to eq(customer.id)
       expect(new_customer_subscription.subscription_id).to eq(subscription.id)

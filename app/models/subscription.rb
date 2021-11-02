@@ -1,8 +1,8 @@
 class Subscription < ApplicationRecord
-  has_many :customer_subscriptions
-  has_many :customers, through: :customer_subscriptions
-  has_many :tea_subscriptions
-  has_many :teas, through: :tea_subscriptions
+  # has_many :customer_subscriptions
+  belongs_to :customer
+  # has_many :tea_subscriptions
+  has_many :teas
 
   validates :title, presence: true
   validates :price, presence: true
