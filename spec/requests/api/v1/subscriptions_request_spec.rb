@@ -36,5 +36,33 @@ RSpec.describe 'subscription API' do
       expect(subscription[:data][:attributes]).to have_key(:status)
       expect(subscription[:data][:attributes]).to have_key(:frequency)
     end
+
+    it 'can update/cancel the status of a subscription' do
+      customer = create(:customer)
+      subscription = create(:subscription, status: :subscribed, customer: customer)
+      updated_params = {
+        status: 'cancelled'
+      }
+
+      patch "/api/v1/subscriptions/#{subscription.id}", params: { subscription: updated_params}
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      updated_subscription = Subscription.find(subscription.id)
+
+      expect(updated_subscription.status).to eq(updated_params[:status])
+
+      json = JSON.parse(response.body, symbolize_names: true)\
+
+      expect(json).to have_key(:data)
+      expect(json[:data]).to have_key(:id)
+      expect(json[:data]).to have_key(:type)
+      expect(json[:data]).to have_key(:attributes)
+      expect(json[:data][:attributes]).to have_key(:title)
+      expect(json[:data][:attributes]).to have_key(:price)
+      expect(json[:data][:attributes]).to have_key(:status)
+      expect(json[:data][:attributes]).to have_key(:frequency)
+    end
   end
 end

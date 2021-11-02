@@ -5,6 +5,10 @@ class Api::V1::SubscriptionsController < ApplicationController
     json_response(SubscriptionSerializer.new(subscription), :created)
   end
 
+  def update
+      json_response(SubscriptionSerializer.new(Subscription.update(params[:id], customer_subscription_params)))
+  end
+
   private
 
   def customer_subscription_params
