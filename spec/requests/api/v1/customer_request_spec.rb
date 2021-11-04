@@ -34,10 +34,9 @@ RSpec.describe 'customers api' do
         address: '1234 Main st'
       }
 
-
       expect(Customer.count).to eq(0)
 
-      post '/api/v1/customers', params: { user: customer_params }
+      post '/api/v1/customers', params: { customer: customer_params }
 
       expect(response).to be_successful
       expect(response.status).to eq(201)
@@ -60,6 +59,55 @@ RSpec.describe 'customers api' do
       expect(customer[:data][:attributes]).to have_key(:last_name)
       expect(customer[:data][:attributes]).to have_key(:email)
       expect(customer[:data][:attributes]).to have_key(:address)
+    end
+  end
+
+  describe 'sad paths' do
+    it 'will not send a response if the customer id is invalid' do
+      customer = create(:customer)
+
+      get '/api/v1/customers/1234'
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
+    end
+
+    it 'will not send a response if the customer id is a string' do
+      customer = create(:customer)
+
+      get '/api/v1/customers/NOTVALID'
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
+    end
+
+    it 'will not create a customer if some of the information is missing' do
+      customer_params = {
+        first_name: 'Example',
+        last_name: 'Last Name',
+        email: 'example@example.com'
+      }
+
+      expect(Customer.count).to eq(0)
+
+      post '/api/v1/customers', params: { customer: customer_params }
+
+      expect(Customer.count).to eq(0)
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
     end
   end
 end

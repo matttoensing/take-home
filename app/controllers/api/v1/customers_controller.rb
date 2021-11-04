@@ -4,7 +4,7 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def create
-    json_response(CustomerSerializer.new(Customer.create(customer_params)), :created)
+    json_response(CustomerSerializer.new(Customer.create!(customer_params)), :created)
   end
 
   private
