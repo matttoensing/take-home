@@ -7,7 +7,6 @@ RSpec.describe 'subscription API' do
       subscription_params = {
         title: 'Green Tea Subscription',
         price: 29.99,
-        status: 'subscribed',
         frequency: 'weekly',
         customer_id: customer.id
       }
@@ -21,7 +20,7 @@ RSpec.describe 'subscription API' do
 
       expect(new_subscription.title).to eq(subscription_params[:title])
       expect(new_subscription.price).to eq(subscription_params[:price])
-      expect(new_subscription.status).to eq(subscription_params[:status])
+      expect(new_subscription.status).to eq('subscribed')
       expect(new_subscription.frequency).to eq(subscription_params[:frequency])
       expect(new_subscription.customer_id).to eq(customer.id)
 

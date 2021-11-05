@@ -27,4 +27,36 @@ RSpec.describe 'customer subscription API' do
       end
     end
   end
+
+  describe 'sad paths' do
+    it 'will not send a list of customer subscriptions if the customer ID is invalid' do
+      customer = create(:customer)
+      subscription1 = create(:subscription, customer: customer)
+      subscription2 = create(:subscription, customer: customer)
+
+      get '/api/v1/customer_subscriptions/1234'
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
+    end
+
+    it 'will not send a list of customer subscriptions if the customer ID is a string' do
+      customer = create(:customer)
+      subscription1 = create(:subscription, customer: customer)
+      subscription2 = create(:subscription, customer: customer)
+
+      get '/api/v1/customer_subscriptions/NOTVALID'
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+
+      expect(error).to have_key(:message)
+    end
+  end
 end
